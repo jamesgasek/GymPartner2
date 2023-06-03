@@ -21,7 +21,7 @@ struct GymPartner2App: App {
     var body: some Scene {
             WindowGroup {
                 if !isSignIn {
-                    AuthView()
+                    AuthView(auth: $isSignIn)
                         .onOpenURL { url in
                                   GIDSignIn.sharedInstance.handle(url)
                                 }

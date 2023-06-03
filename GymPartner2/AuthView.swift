@@ -16,19 +16,37 @@ import GoogleSignInSwift
 
 struct AuthView: View {
 
+    @Binding var auth: Bool
+    
     func handleSignInButton() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first
                   as? UIWindowScene)?.windows.first?.rootViewController
               else {return}
         
         GIDSignIn.sharedInstance.signIn(
-            withPresenting: presentingViewController) { signInResult, error in
-              guard let result = signInResult else {
-                // Inspect error
-                return
-              }
-                print("successful")
-                // If sign in succeeded, display the app's main content View.
+            withPresenting: presentingViewController) { result, error in
+                ///make sure we have no errors
+                guard error == nil
+                else {
+                    print("error during GIDSignIn in AuthVIew")
+                    return
+                }
+                ///get the user from the result optional if possible
+                guard let user = result?.user,
+                      let idToken = user.idToken?.tokenString
+                else {
+                    print("error getting user from result in GIDSignIn in AuthView")
+                    return
+                }
+                ///finally, create the credential object
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                            accessToken: user.accessToken.tokenString)
+                
+                Auth.auth().signIn(with: credential) { result, error in
+
+                  print("successful firebase authentication!! 🤣")
+                    auth = true
+                }
             }
         }
     
@@ -108,26 +126,10 @@ struct AuthView: View {
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthView()
+            AuthView(auth: .constant(false))
         }
     }
     @State static var isAuthenticated = false
     @State static var isAwaitingAuth = false
 
-}
-
-extension View{
-    func getRect()->CGRect{
-        return UIScreen.main.bounds
-    }
-    ///magic hack from
-    ///https://www.youtube.com/watch?v=0ncKXZVaXOU
-    ///i think this is to use UIKit alongside the swiftUI
-    func getRootViewController()->UIViewController{
-        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else{
-            fatalError("No root view controller found")
-        }
-        return rootViewController
-    
-    }
 }
