@@ -15,50 +15,52 @@ enum ViewSelection{
     case profile
 }
 
-struct BottomBar: View{
-    
-    @Binding var selectedView: ViewSelection
-    
-    var body: some View{
-        VStack{
-            Spacer()
-            HStack{
-                Spacer()
-                Button(action: {
-                    selectedView = .home
-                }, label: {
-                    Image(systemName: "house.fill")
-                        .foregroundColor(.black)
-                })
-                Spacer()
-                Button(action: {
-                    selectedView = .workout
-                }, label: {
-                    Image(systemName: "figure.strengthtraining.traditional")
-                        .foregroundColor(.black)
-                        .font(.system(size: 50))
-                    
-                })
-                Spacer()
-                Button(action: {
-                    selectedView = .profile
-                selectedView = .profile
-                }, label: {
-                    Image(systemName: "person.fill")
-                        .foregroundColor(.black)
-                })
-                Spacer()
-            }
-            .frame(height: 80)
-            .background(Color.white)
-        }
-    }
-}
+//struct BottomBar: View{
+//
+//    @Binding var selectedView: ViewSelection
+//
+//    var body: some View{
+//        VStack{
+//            Spacer()
+//            HStack{
+//                Spacer()
+//                Button(action: {
+//                    selectedView = .home
+//                }, label: {
+//                    Image(systemName: "house.fill")
+//                        .foregroundColor(.black)
+//                })
+//                Spacer()
+//                Button(action: {
+//                    selectedView = .workout
+//                }, label: {
+//                    Image(systemName: "figure.strengthtraining.traditional")
+//                        .foregroundColor(.black)
+//                        .font(.system(size: 50))
+//
+//                })
+//                Spacer()
+//                Button(action: {
+//                    selectedView = .profile
+//                selectedView = .profile
+//                }, label: {
+//                    Image(systemName: "person.fill")
+//                        .foregroundColor(.black)
+//                })
+//                Spacer()
+//            }
+//            .frame(height: 80)
+//            .background(Color.white)
+//        }
+//    }
+//}
 
 struct ProfileView: View{
     
     var logoutCallBack: () -> Void
 
+    let currentUser = Auth.auth().currentUser
+    
     func signOut() {
             do {
                 try Auth.auth().signOut()
@@ -78,15 +80,26 @@ struct ProfileView: View{
                     .font(.title)
                     .fontWeight(.bold)
                     .padding()
-                Text("Your personal gym partner")
-                    .font(.subheadline)
-                    .fontWeight(.light)
-                    .padding()
+//                Text("Your personal gym partner")
+//                    .font(.subheadline)
+//                    .fontWeight(.light)
+//                    .padding()
+                
                 Button(action: {
                     signOut()
                 }){
                     Text("Sign Out")
                 }
+                .padding()
+                
+                Text("Current E-Mail: " + (currentUser?.email ?? "no user"))
+                    .padding()
+                
+                Text("Current UID: " + (currentUser?.uid ?? "no user"))
+                    .padding()
+                
+                
+                
                 Spacer()
             }
             Spacer()
@@ -136,22 +149,26 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ZStack{
-            BottomBar(selectedView: $currentView)
-                .edgesIgnoringSafeArea(.all)
-                .shadow(radius: 1)
-            
-            switch(currentView){
-            case .home:
-                MainView(fname: fname)
-            case .workout:
-                Text("Workout")
-            case .profile:
-                ProfileView(logoutCallBack: logoutCallBack)
-
-            }
+        
+        TabView {
+            MainView(fname: fname)
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+            Text("Workout")
+                .tabItem {
+                    Image(systemName: "figure.strengthtraining.traditional")
+                    Text("Workout")
+                }
+            ProfileView(logoutCallBack: logoutCallBack)
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("Profile")
+                }
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

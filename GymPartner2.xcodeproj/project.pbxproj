@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C323E31E2A2CE0B100F94173 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C323E31D2A2CE0B100F94173 /* Launch Screen.storyboard */; };
 		C3E98F342A2A3C33002F910D /* GymPartner2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98F332A2A3C33002F910D /* GymPartner2App.swift */; };
 		C3E98F362A2A3C33002F910D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98F352A2A3C33002F910D /* ContentView.swift */; };
 		C3E98F382A2A3C35002F910D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3E98F372A2A3C35002F910D /* Assets.xcassets */; };
@@ -67,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C323E31D2A2CE0B100F94173 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C3E98F302A2A3C33002F910D /* GymPartner2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymPartner2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3E98F332A2A3C33002F910D /* GymPartner2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymPartner2App.swift; sourceTree = "<group>"; };
 		C3E98F352A2A3C33002F910D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				C3E98F392A2A3C35002F910D /* Preview Content */,
 				C3E98F652A2A40CA002F910D /* WorkoutContext.swift */,
 				C3E98F692A2A50B5002F910D /* AuthView.swift */,
+				C323E31D2A2CE0B100F94173 /* Launch Screen.storyboard */,
 			);
 			path = GymPartner2;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 			files = (
 				C3E98F3B2A2A3C35002F910D /* Preview Assets.xcassets in Resources */,
 				C3E98F382A2A3C35002F910D /* Assets.xcassets in Resources */,
+				C323E31E2A2CE0B100F94173 /* Launch Screen.storyboard in Resources */,
 				C3E98FAE2A2A6303002F910D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +539,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -566,6 +571,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
