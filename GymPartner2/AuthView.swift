@@ -15,8 +15,14 @@ import GoogleSignInSwift
 
 
 struct AuthView: View {
-
-    @Binding var auth: Bool
+    
+    ///callback function (only used to re-render original screen and bring user to main view when signed in
+    var loginCallBack: () -> Void
+    
+    init(loginCallBack: @escaping () -> Void = {}) {
+        ///make the logincallback an empty closure by default if none is specified
+        self.loginCallBack = loginCallBack
+    }
     
     func handleSignInButton() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first
@@ -44,8 +50,9 @@ struct AuthView: View {
                 
                 Auth.auth().signIn(with: credential) { result, error in
 
-                  print("successful firebase authentication!! 🤣")
-                    auth = true
+                    print("successful firebase authentication!! 🤣")
+                    loginCallBack()
+                    //auth = true
                 }
             }
         }
@@ -124,9 +131,10 @@ struct AuthView: View {
 
 
 struct AuthView_Previews: PreviewProvider {
+    
     static var previews: some View {
         Group {
-            AuthView(auth: .constant(false))
+            AuthView()
         }
     }
     @State static var isAuthenticated = false

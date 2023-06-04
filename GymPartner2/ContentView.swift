@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 
 enum ViewSelection{
@@ -55,6 +56,21 @@ struct BottomBar: View{
 }
 
 struct ProfileView: View{
+    
+    var logoutCallBack: () -> Void
+
+    func signOut() {
+            do {
+                try Auth.auth().signOut()
+                // Perform any additional actions after sign out (e.g., navigate to the login screen)
+                ///callback goes to contentView, then to GymPartner2App.swift
+                logoutCallBack()
+                
+            } catch let signOutError as NSError {
+                print("Error signing out: \(signOutError.localizedDescription)")
+            }
+        }
+    
     var body: some View{
         HStack{
             VStack(alignment: .leading){
@@ -66,13 +82,17 @@ struct ProfileView: View{
                     .font(.subheadline)
                     .fontWeight(.light)
                     .padding()
+                Button(action: {
+                    signOut()
+                }){
+                    Text("Sign Out")
+                }
                 Spacer()
             }
             Spacer()
         }
+        }
     }
-
-}
 
 struct MainView: View{
     
@@ -104,12 +124,15 @@ struct MainView: View{
 
 struct ContentView: View {
     
+    var logoutCallBack: () -> Void
+    
     let fname: String
     @State var currentView: ViewSelection
     
-    init(fname: String) {
+    init(fname: String, logoutCallBack: @escaping () -> Void = {}) {
         self.fname = fname
         self.currentView = .home
+        self.logoutCallBack = logoutCallBack
     }
     
     var body: some View {
@@ -124,7 +147,7 @@ struct ContentView: View {
             case .workout:
                 Text("Workout")
             case .profile:
-                ProfileView()
+                ProfileView(logoutCallBack: logoutCallBack)
 
             }
         }

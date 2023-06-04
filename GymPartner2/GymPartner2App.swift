@@ -12,23 +12,31 @@ import GoogleSignIn
 @main
 struct GymPartner2App: App {
     
-    @AppStorage("signIn") var isSignIn = false
+    @State private var userIsSignedIn: Bool
     
+            
     init() {
         FirebaseApp.configure()
+        _userIsSignedIn = State(initialValue: Auth.auth().currentUser != nil)
     }
     
+    
+    func logoutCallBack(){userIsSignedIn = false}
+    
+    func loginCallBack(){ userIsSignedIn = true}
+    
     var body: some Scene {
-            WindowGroup {
-                if !isSignIn {
-                    AuthView(auth: $isSignIn)
-                        .onOpenURL { url in
-                                  GIDSignIn.sharedInstance.handle(url)
-                                }
-                } else {
-                    ContentView(fname: "James")
-                }
+        WindowGroup {
+            
+            if userIsSignedIn {
+                ContentView(fname: "James", logoutCallBack: logoutCallBack)
+                
+            } else {
+                AuthView(loginCallBack: self.loginCallBack)
+                    .onOpenURL { url in
+                        GIDSignIn.sharedInstance.handle(url)
+                    }
             }
         }
+    }
 }
-
