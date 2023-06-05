@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 
@@ -14,46 +17,6 @@ enum ViewSelection{
     case workout
     case profile
 }
-
-//struct BottomBar: View{
-//
-//    @Binding var selectedView: ViewSelection
-//
-//    var body: some View{
-//        VStack{
-//            Spacer()
-//            HStack{
-//                Spacer()
-//                Button(action: {
-//                    selectedView = .home
-//                }, label: {
-//                    Image(systemName: "house.fill")
-//                        .foregroundColor(.black)
-//                })
-//                Spacer()
-//                Button(action: {
-//                    selectedView = .workout
-//                }, label: {
-//                    Image(systemName: "figure.strengthtraining.traditional")
-//                        .foregroundColor(.black)
-//                        .font(.system(size: 50))
-//
-//                })
-//                Spacer()
-//                Button(action: {
-//                    selectedView = .profile
-//                selectedView = .profile
-//                }, label: {
-//                    Image(systemName: "person.fill")
-//                        .foregroundColor(.black)
-//                })
-//                Spacer()
-//            }
-//            .frame(height: 80)
-//            .background(Color.white)
-//        }
-//    }
-//}
 
 struct ProfileView: View{
     
@@ -64,7 +27,6 @@ struct ProfileView: View{
     func signOut() {
             do {
                 try Auth.auth().signOut()
-                // Perform any additional actions after sign out (e.g., navigate to the login screen)
                 ///callback goes to contentView, then to GymPartner2App.swift
                 logoutCallBack()
                 
@@ -80,10 +42,6 @@ struct ProfileView: View{
                     .font(.title)
                     .fontWeight(.bold)
                     .padding()
-//                Text("Your personal gym partner")
-//                    .font(.subheadline)
-//                    .fontWeight(.light)
-//                    .padding()
                 
                 Button(action: {
                     signOut()
@@ -95,10 +53,8 @@ struct ProfileView: View{
                 Text("Current E-Mail: " + (currentUser?.email ?? "no user"))
                     .padding()
                 
-                Text("Current UID: " + (currentUser?.uid ?? "no user"))
+                Text("Current UID: " + (currentUser?.uid ?? "NA"))
                     .padding()
-                
-                
                 
                 Spacer()
             }
@@ -133,8 +89,6 @@ struct MainView: View{
     }
 }
 
-
-
 struct ContentView: View {
     
     var logoutCallBack: () -> Void
@@ -143,9 +97,38 @@ struct ContentView: View {
     @State var currentView: ViewSelection
     
     init(fname: String, logoutCallBack: @escaping () -> Void = {}) {
+        
         self.fname = fname
         self.currentView = .home
         self.logoutCallBack = logoutCallBack
+        
+        ///this is the entry point for the entire app, after authenticaiton is successful.
+        
+        let db = Firestore.firestore()
+        
+        let currentUser = Auth.auth().currentUser
+
+        let docRef = db.collection("users").document(currentUser?.uid ?? "NA")
+        
+
+        
+        docRef.getDocument { (document, error) in
+            
+            if let document = document, document.exists {
+                print("User exists in the system")
+            } else {
+                print("First time user logged into the system")
+            
+                docRef.setData(["field1": "value1", "field2": "value2"]) { error in
+                
+                    if let error = error {
+                        print("Error adding document: \(error)")
+                    } else {
+                        print("Document added successfully with custom ID")
+                    }
+                }
+            }
+        }
     }
     
     var body: some View {

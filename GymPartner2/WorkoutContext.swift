@@ -7,39 +7,54 @@
 
 import Foundation
 
+enum WorkoutType{
+    
+    case timed
+    case distance
+    case repetitions
+    
+}
+
+struct Set{
+    
+    var type: WorkoutType
+    var weight: UInt16
+    var delay: UInt16
+    
+    init(weight: UInt16, delay: UInt16, type: WorkoutType = .repetitions) {
+        self.weight = weight
+        self.delay = delay
+        self.type = type
+    }
+}
+
 struct Exercise{
     
-    var name: String
-    var weights: [UInt8]
-    var delay: UInt8
+    var sets: [Set]
+    var delay: UInt16
     
-    init(name: String, weights: [UInt8], delay: UInt8){
-        self.name = name
-        self.weights = weights
+    init(sets: [Set], delay: UInt16){
+        self.sets = sets
         self.delay = delay
     }
 }
 
-struct WorkoutDay{
+struct Workout{
         
     var name: String
-    var workouts: [Exercise]
+    var Exercises: [Exercise]
     
-    init(name: String, workouts: [Exercise]){
+    init(name: String, Exercises: [Exercise]){
         self.name = name
-        self.workouts = workouts
+        self.Exercises = Exercises
     }
 }
 
-class WorkoutContext {
+struct Rotation{
     
-    var days: UInt8
-    var split: [WorkoutDay]
+    var workouts: [Workout]
     
-    init(days: UInt8, split: [WorkoutDay]){
-        self.days = days
-        self.split = split
+    init(workouts: [Workout]) {
+        self.workouts = workouts
     }
-    
-    //we will add member functions here
 }
